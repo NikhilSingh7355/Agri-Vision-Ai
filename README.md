@@ -1,5 +1,9 @@
 # AgriVision AI
-
+ TEAM : SHADOW WAR(PRESENTED BY)
+ NIKHIL SINGH
+ VISHAL KUMAR YADAV
+ PRABHAT KUMAR SHARMA
+FAZILA ANSARI
 Streamlit app: upload or capture a leaf photo, get a crop/disease prediction with confidence,
 Hindi/English guidance, and a downloadable report.
 
@@ -32,4 +36,4 @@ go to share.streamlit.io, New app, pick the repo, main file `app.py`, Deploy. Yo
 
 **Hugging Face Spaces** (alternative): New Space > SDK Streamlit > upload these files.
 
-Put the final link on the PPT.
+ppt link:https://docs.google.com/presentation/d/18r-cnmM_ZypqvJtwlYuz_tUit6fFWPMk/edit?usp=sharing&ouid=106116844708181444006&rtpof=true&sd=true
