@@ -1,9 +1,9 @@
 # AgriVision AI
  TEAM : SHADOW WAR(PRESENTED BY)
- NIKHIL SINGH
- VISHAL KUMAR YADAV
- PRABHAT KUMAR SHARMA
-FAZILA ANSARI
+ NIKHIL SINGH,
+ VISHAL KUMAR YADAV,
+ PRABHAT KUMAR SHARMA,
+ FAZILA ANSARI
 Streamlit app: upload or capture a leaf photo, get a crop/disease prediction with confidence,
 Hindi/English guidance, and a downloadable report.
 
