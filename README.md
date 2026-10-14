@@ -6,6 +6,7 @@
  FAZILA ANSARI
 Streamlit app: upload or capture a leaf photo, get a crop/disease prediction with confidence,
 Hindi/English guidance, and a downloadable report.
+DEmo link:https://agri-vision-ai-3eh33v58nmasuauseggp7h.streamlit.app/
 
 ## Two modes
 - **CNN mode** (real diagnosis): active when `model.keras` and `labels.json` are next to `app.py`.
