@@ -1,12 +1,7 @@
 # AgriVision AI
- TEAM : SHADOW WAR(PRESENTED BY)
- NIKHIL SINGH,
- VISHAL KUMAR YADAV,
- PRABHAT KUMAR SHARMA,
- FAZILA ANSARI
+
 Streamlit app: upload or capture a leaf photo, get a crop/disease prediction with confidence,
 Hindi/English guidance, and a downloadable report.
-DEmo link:https://agri-vision-ai-3eh33v58nmasuauseggp7h.streamlit.app/
 
 ## Two modes
 - **CNN mode** (real diagnosis): active when `model.keras` and `labels.json` are next to `app.py`.
@@ -37,4 +32,14 @@ go to share.streamlit.io, New app, pick the repo, main file `app.py`, Deploy. Yo
 
 **Hugging Face Spaces** (alternative): New Space > SDK Streamlit > upload these files.
 
-ppt link:https://docs.google.com/presentation/d/18r-cnmM_ZypqvJtwlYuz_tUit6fFWPMk/edit?usp=sharing&ouid=106116844708181444006&rtpof=true&sd=true
+Put the final link on the PPT.
+
+## 4. Voice assistant (Hindi / English / Bhojpuri-experimental)
+Files: `voice.py` (+ small hook in `app.py`). Flow: mic -> Groq Whisper -> Groq Llama (knows the scan result) -> edge-tts voice (gTTS fallback).
+1. Free key: console.groq.com > API Keys.
+2. Local: create `.streamlit/secrets.toml` with `GROQ_API_KEY = "gsk_..."`
+   Cloud: App settings > Secrets > paste the same line.
+3. Without the key the app still works; the voice section just shows "off".
+Limits (say these honestly): Bhojpuri is heard as Hindi and spoken with a Hindi voice; noisy fields hurt accuracy;
+the assistant never gives pesticide names or doses, it sends the farmer to KVK / Kisan Call Centre.
+Do not commit secrets.toml to GitHub (add `.streamlit/secrets.toml` to .gitignore).

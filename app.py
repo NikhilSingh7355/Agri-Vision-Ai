@@ -1,4 +1,4 @@
-import json, os, io
+import json, os, io, hashlib
 from datetime import datetime
 import numpy as np
 import streamlit as st
@@ -6,6 +6,7 @@ from PIL import Image
 
 from advice import get_advice, parse_label, category
 from lesion import lesion_share, severity
+from voice import render_voice_assistant
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(HERE, "model.keras")
@@ -86,10 +87,12 @@ with tab1:
 with tab2:
     cam = st.camera_input(t["camera"], label_visibility="collapsed")
 src = up or cam
+scan = None   # filled after a photo is analysed; the voice assistant uses it as context
 
 if src:
+    sid = hashlib.md5(src.getvalue()).hexdigest()[:10]
     img = Image.open(src)
-    st.image(img, use_container_width=True)
+    st.image(img, width="stretch")
     with st.spinner(t["analyse"]):
         report = [f"AgriVision AI report - {datetime.now():%Y-%m-%d %H:%M}"]
         st.header(t["result"])
@@ -109,6 +112,11 @@ if src:
                 st.write(f"- {cr}: {di} ({p*100:.0f}%)")
             actions, prevention = get_advice(label, lang)
             report += [f"{crop}: {disease} ({conf*100:.0f}% confidence)"]
+            alts = ", ".join(f"{parse_label(l)[0]} {parse_label(l)[1]} ({p*100:.0f}%)" for l, p in preds[1:])
+            scan = dict(id=sid, advice=actions + prevention,
+                        summary=f"Crop: {crop}. Condition: {disease_show}. Model confidence: {conf*100:.0f}%."
+                                + (" LOW confidence, the result may be wrong." if conf < CONF_THRESHOLD else "")
+                                + f" Other possibilities: {alts}.")
         else:
             share = lesion_share(img)
             if share is None:
@@ -118,6 +126,8 @@ if src:
             c1.metric(t["share"], f"{share*100:.0f}%"); c2.metric(t["sev"], t[sev])
             actions, prevention = get_advice("Crop___leaf spot" if sev != "none" else "Crop___healthy", lang)
             report += [f"Demo mode - estimated affected area {share*100:.0f}% ({sev})"]
+            scan = dict(id=sid, advice=actions + prevention,
+                        summary=f"Demo mode, NOT a disease classifier. About {share*100:.0f}% of the leaf shows yellow/brown lesion colour (severity: {sev}). Crop and disease are UNKNOWN.")
 
     st.subheader(t["actions"])
     for a in actions: st.write("- " + a)
@@ -127,6 +137,8 @@ if src:
     st.subheader(t["expert"]); st.info(t["expert_txt"])
     report += [""] + actions + prevention + ["", t["disclaimer"]]
     st.download_button(t["download"], "\n".join(report), file_name="agrivision_report.txt")
+
+render_voice_assistant(scan, lang)
 
 st.divider()
 st.caption(t["disclaimer"])

@@ -1,3 +1,7 @@
-   streamlit
-   numpy
-   Pillow
+streamlit>=1.50
+numpy
+Pillow
+tensorflow-cpu>=2.16,<2.20
+groq
+edge-tts
+gTTS
